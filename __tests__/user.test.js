@@ -27,6 +27,17 @@ describe('backend-express-template routes', () => {
     expect(session).toBeTruthy();
   });
 
+  it('returns the current user', async () => {
+    const me = await agent.get('/api/v1/users/me');
+    console.log(me.body);
+    expect(me.body).toEqual({
+      email: expect.any(String),
+      id: expect.any(String),
+      exp: expect.any(Number),
+      iat: expect.any(Number),
+    });
+  });
+
   it('delete user session(logout)', async () => {
     const agent = request.agent(app);
     await agent.post('/api/v1/users').send(mockUser);
