@@ -23,6 +23,15 @@ describe('backend-express-template routes', () => {
     });
   });
 
+  it('delete user session(logout)', async () => {
+    const agent = request.agent(app);
+    await agent.post('/api/v1/users').send(mockUser);
+    const resp = await agent
+      .delete('/api/v1/users/sessions');
+    console.log(resp.body);
+    expect(resp.status).toBe(204);
+  });
+
   afterAll(() => {
     pool.end();
   });
