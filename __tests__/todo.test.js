@@ -41,21 +41,19 @@ describe('backend-express-template routes', () => {
     expect(res.body.length).toBe(0);
   });
 
-  it('UPDATE /api/v1/todos/:id should update a todo', async () => {
+  it('should update a todo status', async () => {
     const signIn = await agent.post('/api/v1/users').send(mockUser);
     expect(signIn.body).toEqual({
       email: mockUser.email,
       password: mockUser.password
     });
-    const todo = {
-      task: 'whatever'
-    };
-    const activeTodo = await agent.post('/api/v1/todos').send(todo);
-    console.log(activeTodo.body.id);
-    const resp = await agent
-      .put('/api/v1/todos/1')
+    const todo = await agent.post('/api/v1/todos')
+      .send({ task: 'make this work' });
+    const resp = await agent.put(`/api/v1/todos/${todo.body.id}`)
       .send({ done: true });
+
     expect(resp.status).toBe(200);
+    expect(resp.body.done).toEqual(true);
   });
 
   afterAll(() => {
