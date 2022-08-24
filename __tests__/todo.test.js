@@ -40,6 +40,29 @@ describe('backend-express-template routes', () => {
     const res = await agent.get('/api/v1/todos');
     expect(res.body.length).toBe(0);
   });
+
+  it('UPDATE /api/v1/todos/:id should update a todo', async () => {
+    const signIn = await agent.post('/api/v1/users').send(mockUser);
+    expect(signIn.body).toEqual({
+      email: mockUser.email,
+      password: mockUser.password
+    });
+    const todo = {
+      task: 'whatever'
+    };
+    const activeTodo = await agent.post('/api/v1/todos').send(todo);
+    const resp = await agent
+      .put(`/api/v1/todos/${activeTodo.body.id}`)
+      .send({ done: true });
+    expect(resp.status).toBe(200);
+
+    // const resp = await agent
+    //   .put(`/api/v1/todos/${todo.id}`)
+    //   .send({ bought: true });
+    // expect(resp.status).toBe(200);
+    // expect(resp.body).toEqual({ ...todo, bought: true });
+  });
+
   afterAll(() => {
     pool.end();
   });
