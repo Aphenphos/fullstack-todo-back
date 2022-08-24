@@ -51,7 +51,7 @@ describe('backend-express-template routes', () => {
       .send({ task: 'make this work' });
     const resp = await agent.put(`/api/v1/todos/${todo.body.id}`)
       .send({ done: true });
-
+    console.log(resp.body);
     expect(resp.status).toBe(200);
     expect(resp.body.done).toEqual(true);
   });
