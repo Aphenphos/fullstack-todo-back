@@ -56,6 +56,20 @@ describe('backend-express-template routes', () => {
     expect(resp.body.done).toEqual(true);
   });
 
+  it('deletes a todo', async () => {
+    const signIn = await agent.post('/api/v1/users').send(mockUser);
+    expect(signIn.body).toEqual({
+      email: mockUser.email,
+      password: mockUser.password
+    });
+    const todo = await agent.post('/api/v1/todos')
+      .send({ task: 'make this work' });
+    const resp = await agent.delete(`/api/v1/todos/${todo.body.id}`);
+    expect(resp.status).toBe(200);
+    const check = await agent.get(`/api/v1/todos/${todo.body.id}`);
+    expect(check.status).toBe(404);
+
+  });
   afterAll(() => {
     pool.end();
   });
