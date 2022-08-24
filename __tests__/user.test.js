@@ -42,7 +42,6 @@ describe('backend-express-template routes', () => {
 
   it('returns the current user', async () => {
     const me = await agent.get('/api/v1/users/me');
-    console.log(me.body);
     expect(me.body).toEqual({
       email: expect.any(String),
       id: expect.any(String),
@@ -61,7 +60,6 @@ describe('backend-express-template routes', () => {
     await agent.post('/api/v1/users').send(mockUser);
     const resp = await agent
       .delete('/api/v1/users/sessions');
-    console.log(resp.body);
     expect(resp.status).toBe(204);
   });
 

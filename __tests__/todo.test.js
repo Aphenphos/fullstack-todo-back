@@ -51,16 +51,11 @@ describe('backend-express-template routes', () => {
       task: 'whatever'
     };
     const activeTodo = await agent.post('/api/v1/todos').send(todo);
+    console.log(activeTodo.body.id);
     const resp = await agent
-      .put(`/api/v1/todos/${activeTodo.body.id}`)
+      .put('/api/v1/todos/1')
       .send({ done: true });
     expect(resp.status).toBe(200);
-
-    // const resp = await agent
-    //   .put(`/api/v1/todos/${todo.id}`)
-    //   .send({ bought: true });
-    // expect(resp.status).toBe(200);
-    // expect(resp.body).toEqual({ ...todo, bought: true });
   });
 
   afterAll(() => {
